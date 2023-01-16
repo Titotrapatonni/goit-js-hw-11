@@ -54,7 +54,7 @@ async function fetchPhotos() {
 
 async function getPics(querry) {
   try {
-    const response = await axios.get(
+    const response = await axios(
       `${BASE_URL}api/?key=${KEY}&q=${querry.trim()}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     );
     const pics = response.data.hits;
