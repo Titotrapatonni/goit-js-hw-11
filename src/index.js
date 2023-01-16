@@ -11,7 +11,7 @@ const galleryEl = document.querySelector('.gallery');
 const querry = formEl.searchQuery.value;
 let page = 1;
 
-const axios = require('axios');
+// const axios = require('axios');
 let markup = ``;
 formEl.addEventListener('submit', onSearch);
 loadBtn.addEventListener('click', onClick);
