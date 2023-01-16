@@ -8,8 +8,8 @@ const BASE_URL = 'https://pixabay.com/';
 const formEl = document.querySelector('form#search-form');
 const loadBtn = document.querySelector('.load-more');
 const galleryEl = document.querySelector('.gallery');
-const querry = formEl.searchQuery.value;
 let page = 1;
+// loadBtn.hidden = true;
 
 // const axios = require('axios');
 let markup = ``;
@@ -19,7 +19,17 @@ loadBtn.addEventListener('click', onClick);
 function onClick() {
   page += 1;
   getPics(formEl.searchQuery.value)
-    .then(pics => pics.map(pic => createMarkup(pic)))
+    .then(pics => {
+      if (pics.length < 40) {
+        loadBtn.hidden = true;
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+      }
+      pics.map(pic => {
+        createMarkup(pic);
+      });
+    })
     .catch(err => console.log(err));
 }
 
@@ -27,11 +37,26 @@ function onSearch(evt) {
   evt.preventDefault();
   page = 1;
   galleryEl.innerHTML = '';
+  loadBtn.hidden = true;
   // fetchPhotos();
-  getPics(formEl.searchQuery.value)
+  const querry = formEl.searchQuery.value.trim();
+
+  if (querry === '') {
+    Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+    return;
+  }
+  getPics(querry)
     .then(pics => {
       pics.map(pic => createMarkup(pic));
-      loadBtn.hidden = false;
+      if (pics.length < 40) {
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+      } else {
+        loadBtn.hidden = false;
+      }
     })
     .catch(err => console.log(err));
   //   createMarkup();
