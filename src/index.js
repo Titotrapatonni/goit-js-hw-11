@@ -21,7 +21,6 @@ function onClick(params) {
   getPics(formEl.searchQuery.value)
     .then(pics => pics.map(pic => createMarkup(pic)))
     .catch(err => console.log(err));
-  // if(page > ){}
 }
 
 function onSearch(evt) {
