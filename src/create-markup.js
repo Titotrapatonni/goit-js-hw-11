@@ -16,7 +16,7 @@ export function createMarkup({
   comments,
   downloads,
 }) {
-  markup = '';
+  let markup = '';
   markup += `<div class="photo-card">
     <a 
     class="gallery__item" 
