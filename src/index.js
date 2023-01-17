@@ -10,9 +10,9 @@ let querry = '';
 formEl.addEventListener('submit', onSearch);
 loadBtn.addEventListener('click', onClick);
 
-async function onClick() {
+function onClick() {
   page += 1;
-  await getPics(querry, page)
+  getPics(querry, page)
     .then(pics => {
       if (pics.hits.length < 40) {
         loadBtn.hidden = true;
@@ -28,7 +28,7 @@ async function onClick() {
     .catch(err => console.log(err));
 }
 
-async function onSearch(evt) {
+function onSearch(evt) {
   evt.preventDefault();
   galleryEl.innerHTML = '';
   startBtn.hidden = true;
@@ -42,7 +42,7 @@ async function onSearch(evt) {
     );
     return;
   }
-  await getPics(querry, (page = 1))
+  getPics(querry, (page = 1))
     .then(pics => {
       pics.hits.map(pic => createMarkup(pic));
       if (pics.hits.length < 40) {
