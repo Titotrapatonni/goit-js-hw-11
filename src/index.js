@@ -7,6 +7,7 @@ const loadBtn = document.querySelector('.load-more');
 const startBtn = document.querySelector('.to-start-btn');
 
 let querry = '';
+let page = 1;
 formEl.addEventListener('submit', onSearch);
 loadBtn.addEventListener('click', onClick);
 
