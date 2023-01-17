@@ -6,7 +6,7 @@ const BASE_URL = 'https://pixabay.com/';
 export async function getPics(querry, page) {
   try {
     const response = await axios(
-      `${BASE_URL}api/?key=${KEY}&q=${querry.trim()}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+      `${BASE_URL}api/?key=${KEY}&q=${querry}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     );
     const pics = await response.data;
     return pics;

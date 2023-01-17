@@ -8,32 +8,15 @@ const startBtn = document.querySelector('.to-start-btn');
 
 let querry = '';
 let page = 1;
+
 formEl.addEventListener('submit', onSearch);
 loadBtn.addEventListener('click', onClick);
-
-function onClick() {
-  page += 1;
-  getPics(querry, page)
-    .then(pics => {
-      if (pics.hits.length < 40) {
-        loadBtn.hidden = true;
-        Notify.failure(
-          "We're sorry, but you've reached the end of search results."
-        );
-      }
-      pics.hits.map(pic => {
-        createMarkup(pic);
-      });
-      startBtn.hidden = false;
-    })
-    .catch(err => console.log(err));
-}
+startBtn.addEventListener('click', onStart);
 
 function onSearch(evt) {
   evt.preventDefault();
   galleryEl.innerHTML = '';
   startBtn.hidden = true;
-
   loadBtn.hidden = true;
   querry = formEl.searchQuery.value.trim();
 
@@ -58,7 +41,32 @@ function onSearch(evt) {
     .catch(err => console.log(err));
 }
 
-startBtn.addEventListener('click', onStart);
+function onClick() {
+  page += 1;
+  getPics(querry, page)
+    .then(pics => {
+      if (pics.hits.length < 40) {
+        loadBtn.hidden = true;
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+      }
+      pics.hits.map(pic => {
+        createMarkup(pic);
+      });
+      startBtn.hidden = false;
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2.4,
+        behavior: 'smooth',
+      });
+    })
+    .catch(err => console.log(err));
+}
+
 function onStart() {
   document.querySelector('.search-form').scrollIntoView({ behavior: 'smooth' });
 }
