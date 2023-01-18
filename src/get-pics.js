@@ -11,6 +11,6 @@ export async function getPics(querry, page) {
     const pics = await response.data;
     return pics;
   } catch (error) {
-    console.error(error);
+    throw new Error(error);
   }
 }

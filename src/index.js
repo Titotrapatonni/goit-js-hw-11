@@ -13,21 +13,21 @@ formEl.addEventListener('submit', onSearch);
 loadBtn.addEventListener('click', onClick);
 startBtn.addEventListener('click', onStart);
 
-function onSearch(evt) {
+async function onSearch(evt) {
   evt.preventDefault();
   galleryEl.innerHTML = '';
   startBtn.hidden = true;
   loadBtn.hidden = true;
   querry = formEl.searchQuery.value.trim();
 
-  if (querry === '') {
+  if (!querry) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
-  getPics(querry, (page = 1))
-    .then(pics => {
+  try {
+    await getPics(querry, (page = 1)).then(pics => {
       pics.hits.map(pic => createMarkup(pic));
       if (pics.hits.length < 40) {
         Notify.failure(
@@ -37,14 +37,16 @@ function onSearch(evt) {
         Notify.success(`Hooray! We found ${pics.totalHits} images.`);
         loadBtn.hidden = false;
       }
-    })
-    .catch(err => console.log(err));
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function onClick() {
+async function onClick() {
   page += 1;
-  getPics(querry, page)
-    .then(pics => {
+  try {
+    await getPics(querry, page).then(pics => {
       if (pics.hits.length < 40) {
         loadBtn.hidden = true;
         Notify.failure(
@@ -63,8 +65,10 @@ function onClick() {
         top: cardHeight * 2.4,
         behavior: 'smooth',
       });
-    })
-    .catch(err => console.log(err));
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function onStart() {
