@@ -40,6 +40,7 @@ async function onSearch(evt) {
     });
   } catch (error) {
     console.log(error);
+    Notify.failure(error.message);
   }
 }
 
@@ -68,6 +69,7 @@ async function onClick() {
     });
   } catch (error) {
     console.log(error);
+    Notify.failure(error.message);
   }
 }
 
